@@ -55,7 +55,7 @@ public class OrderPage {
     }
 
     public void selectCredit() {
-        buttonPay.click();
+        buttonCredit.click();
         heading.find(text(titleCredit)).shouldBe(visible);
         cardFieldsVisible();
         checkNoWarningCardHolder();

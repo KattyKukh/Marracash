@@ -10,6 +10,7 @@ import page.OrderPage;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static com.codeborne.selenide.Selenide.closeWindow;
 import static com.codeborne.selenide.Selenide.open;
 
 public class PaymentTest {
@@ -25,10 +26,10 @@ public class PaymentTest {
 
     }
 
-//    @AfterEach
-//    void cleanUp() {
-//        closeWindow();
-//    }
+    @AfterEach
+    void cleanUp() {
+        closeWindow();
+    }
 
     @AfterAll
     static void tearDownAll() {
@@ -267,7 +268,7 @@ public class PaymentTest {
                 validCardInfo.getHolder(), changedCvv);
         orderPage.selectPay();
         orderPage.fillAndSendForm(wrongCardInfo);
-        orderPage.checkWarningCardHolder(textFillRequired);
+        orderPage.checkWarningCVV(textFillRequired);
         orderPage.checkNoNotification();
         //  в первом из тестов на валидацию поля можно проверять, не всплывает ли предупреждение под другими полями
         orderPage.checkNoWarningCardNumber();
