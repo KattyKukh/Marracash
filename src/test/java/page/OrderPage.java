@@ -11,6 +11,8 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class OrderPage {
+    //    создаю паттерн одной страницы, поскольку поля формы не меняются при выборе оплаты по карте или покупки в кредит,
+    //    меняется только адрес отправки данных на сервер по кнопке "Продолжить"
     private SelenideElement titlePage = $("h2");
     private ElementsCollection heading = $$("h3.heading");
     //    кнопки ищем через button, а потом уже span, чтобы при изменении структуры страницы искать именно кнопку с надписью, а не просто надпись

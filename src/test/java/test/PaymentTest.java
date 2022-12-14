@@ -75,6 +75,20 @@ public class PaymentTest {
     }
 
     @Test
+    @DisplayName("Should error message if card number is too short")
+    void errorIfShortCardNumber() {
+        OrderPage orderPage = open("http://localhost:8080", OrderPage.class);
+        var validCardInfo = DataHelper.generateValidApprovedCard();
+        String newCardNumber = DataHelper.generateWrongCardNumber().substring(0, 15);
+        DataHelper.CardInfo invalidCardInfo = new DataHelper.CardInfo(newCardNumber, validCardInfo.getMonth(), validCardInfo.getYear(),
+                validCardInfo.getHolder(), validCardInfo.getCvv());
+        orderPage.selectPay();
+        orderPage.fillAndSendForm(invalidCardInfo);
+        orderPage.checkWarningCardNumber(textWrongFormat);
+        orderPage.checkNoNotification();
+    }
+
+    @Test
     @DisplayName("Should show warning if card number is empty")
     void warningIfCardNumberEmpty() {
         OrderPage orderPage = open("http://localhost:8080", OrderPage.class);
@@ -233,7 +247,7 @@ public class PaymentTest {
 
     @Test
     @DisplayName("Should show warning if holder name is very long")
-    void warningIfHolderNаmeLong() {
+    void warningIfHolderNameLong() {
         OrderPage orderPage = open("http://localhost:8080", OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
         String changedHolder = DataHelper.generateLongHolderName();
@@ -247,7 +261,7 @@ public class PaymentTest {
 
     @Test
     @DisplayName("Should show warning if holder name is empty")
-    void warningIfHolderNаmeEmpty() {
+    void warningIfHolderNameEmpty() {
         OrderPage orderPage = open("http://localhost:8080", OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
         String changedHolder = "";

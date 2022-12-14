@@ -20,17 +20,16 @@ public class DataBaseTest {
     @BeforeEach
     void setup() {
         Configuration.holdBrowserOpen = true;
-
     }
 
-//    @AfterEach
-//    void cleanUp() {
-//        closeWindow();
-//    }
+    @AfterEach
+    void cleanUp() {
+        closeWindow();
+    }
 
     @AfterAll
     static void tearDownAll() {
-//        SqlHelper.cleanDatabase();
+        SqlHelper.cleanDatabase();
         SelenideLogger.removeListener("allure");
     }
 
@@ -38,34 +37,63 @@ public class DataBaseTest {
     @DisplayName("Should correctly added pay in DB if approved card")
     void successAddedPayInDBIfApprovedCard() {
         OrderPage orderPage = open("http://localhost:8080", OrderPage.class);
-        var validCardInfo = DataHelper.generateValidApprovedCard();
+        var approvedCardInfo = DataHelper.generateValidApprovedCard();
         orderPage.selectPay();
-        orderPage.fillAndSendForm(validCardInfo);
+        orderPage.fillAndSendForm(approvedCardInfo);
         //        проверяем по статусу карты, что операция отразилась в таблице payment_entity
-        String statusCard = DataHelper.getStatusCard(validCardInfo.getCardNumber());
-        String statusTableCard = SqlHelper.getStatusCard();
+        String statusCard = DataHelper.getStatusCard(approvedCardInfo.getCardNumber());
         var rowPaymentTable = SqlHelper.getLastTransactionFromPaymentEntity();
         var rowOrderTable = SqlHelper.getLastTransactionFromOrderEntity();
         Assertions.assertEquals(statusCard, rowPaymentTable.getStatus());
-        //        проверяем по id операции, что карта отразилась и в таблице order_entity в столбце payment_id
+        //        проверяем по id операции, что она отразилась и в таблице order_entity в столбце payment_id
         Assertions.assertEquals(rowPaymentTable.getTransaction_id(), rowOrderTable.getPayment_id());
-        Assertions.assertEquals(rowPaymentTable.getCreated(), rowOrderTable.getCreated());
     }
+
     @Test
     @DisplayName("Should correctly added Credit in DB if approved card")
     void successAddedCreditInDBIfApprovedCard() {
         OrderPage orderPage = open("http://localhost:8080", OrderPage.class);
-        var validCardInfo = DataHelper.generateValidApprovedCard();
+        var approvedCardInfo = DataHelper.generateValidApprovedCard();
         orderPage.selectCredit();
-        orderPage.fillAndSendForm(validCardInfo);
+        orderPage.fillAndSendForm(approvedCardInfo);
         //        проверяем по статусу карты, что операция отразилась в таблице payment_entity
-        String statusCard = DataHelper.getStatusCard(validCardInfo.getCardNumber());
+        String statusCard = DataHelper.getStatusCard(approvedCardInfo.getCardNumber());
         var rowCreditTable = SqlHelper.getLastTransactionFromCreditRequestEntity();
         var rowOrderTable = SqlHelper.getLastTransactionFromOrderEntity();
         Assertions.assertEquals(statusCard, rowCreditTable.getStatus());
-        //        проверяем по id операции, что карта отразилась и в таблице order_entity в столбце payment_id
+        //        проверяем по id операции, что она отразилась и в таблице order_entity в столбце credit_id
         Assertions.assertEquals(rowCreditTable.getBank_id(), rowOrderTable.getCredit_id());
-        Assertions.assertEquals(rowCreditTable.getCreated(), rowOrderTable.getCreated());
     }
 
+    @Test
+    @DisplayName("Should correctly added pay in DB if declined card")
+    void successAddedPayInDBIfDeclinedCard() {
+        OrderPage orderPage = open("http://localhost:8080", OrderPage.class);
+        var declinedCardInfo = DataHelper.generateDeclinedCard();
+        orderPage.selectPay();
+        orderPage.fillAndSendForm(declinedCardInfo);
+        //        проверяем по статусу карты, что операция отразилась в таблице payment_entity
+        String statusCard = DataHelper.getStatusCard(declinedCardInfo.getCardNumber());
+        var rowPaymentTable = SqlHelper.getLastTransactionFromPaymentEntity();
+        var rowOrderTable = SqlHelper.getLastTransactionFromOrderEntity();
+        Assertions.assertEquals(statusCard, rowPaymentTable.getStatus());
+        //        проверяем по id операции, что она отразилась и в таблице order_entity в столбце payment_id
+        Assertions.assertEquals(rowPaymentTable.getTransaction_id(), rowOrderTable.getPayment_id());
+    }
+
+    @Test
+    @DisplayName("Should correctly added Credit in DB if declined card")
+    void successAddedCreditInDBIfDeclinedCard() {
+        OrderPage orderPage = open("http://localhost:8080", OrderPage.class);
+        var declinedCardInfo = DataHelper.generateDeclinedCard();
+        orderPage.selectCredit();
+        orderPage.fillAndSendForm(declinedCardInfo);
+        //        проверяем по статусу карты, что операция отразилась в таблице payment_entity
+        String statusCard = DataHelper.getStatusCard(declinedCardInfo.getCardNumber());
+        var rowCreditTable = SqlHelper.getLastTransactionFromCreditRequestEntity();
+        var rowOrderTable = SqlHelper.getLastTransactionFromOrderEntity();
+        Assertions.assertEquals(statusCard, rowCreditTable.getStatus());
+        //        проверяем по id операции, что она отразилась и в таблице order_entity в столбце credit_id
+        Assertions.assertEquals(rowCreditTable.getBank_id(), rowOrderTable.getCredit_id());
+    }
 }

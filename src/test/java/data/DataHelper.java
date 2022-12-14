@@ -24,9 +24,9 @@ public class DataHelper {
     }
 
     public static String getStatusCard(String cardNumber) {
-        if (cardNumber == "4444444444444441") {
+        if (cardNumber.equals("4444444444444441")) {
             return "APPROVED";
-        } else if (cardNumber == "4444444444444442") {
+        } else if (cardNumber.equals("4444444444444442")) {
             return "DECLINED";
         } else {
             return null;
@@ -60,15 +60,16 @@ public class DataHelper {
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName().replaceAll("[^A-Za-z]", "");
         String holderName = firstName + " " + lastName;
-        // если имя владельца оказывается длиннее 21 символа, включая пробел, то имя обрезается до одной буквы
+        // если имя и фамилия владельца оказываются длиннее 21 символа, включая пробел, то имя обрезается до одной буквы
         if (holderName.length() > 21) {
-            holderName = firstName.substring(0, 1) + " " + lastName;
+            holderName = firstName.charAt(0) + " " + lastName;
         }
         return holderName.toUpperCase();
     }
 
     public static String generateWrongCardNumber() {
-        String newCardNumber = "4" + faker.numerify("###############");
+        // генерируем номер карты с индекса "1111" для того, чтобы легче вычистить такие записи из БД, если они туда попадут
+        String newCardNumber = "1111" + faker.numerify("############");
         return newCardNumber;
     }
 
@@ -78,9 +79,9 @@ public class DataHelper {
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName().replaceAll("[^А-Яа-я]", "");
         String holderName = firstName + " " + lastName;
-        // если имя владельца оказывается длиннее 21 символа, включая пробел, то имя обрезается до одной буквы
+        // если имя и фамилия владельца оказываются длиннее 21 символа, включая пробел, то имя обрезается до одной буквы
         if (holderName.length() > 21) {
-            holderName = firstName.substring(0, 1) + " " + lastName;
+            holderName = firstName.charAt(0) + " " + lastName;
         }
         return holderName.toUpperCase();
     }
