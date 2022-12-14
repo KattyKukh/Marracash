@@ -33,7 +33,6 @@ public class PaymentTest {
 
     @AfterAll
     static void tearDownAll() {
-//        SqlHelper.cleanDatabase();
         SelenideLogger.removeListener("allure");
     }
 
@@ -245,6 +244,7 @@ public class PaymentTest {
         orderPage.checkWarningCardHolder(textWrongFormat);
         orderPage.checkNoNotification();
     }
+
     @Test
     @DisplayName("Should show warning if holder name is empty")
     void warningIfHolderNаmeEmpty() {
@@ -258,6 +258,7 @@ public class PaymentTest {
         orderPage.checkWarningCardHolder(textFillRequired);
         orderPage.checkNoNotification();
     }
+
     @Test
     @DisplayName("Should show warning if CVV is empty")
     void warningIfCvvEmpty() {
@@ -276,11 +277,12 @@ public class PaymentTest {
         orderPage.checkNoWarningYear();
         orderPage.checkNoWarningCardHolder();
     }
+
     @Test
     @DisplayName("Should show warnings if form is not completed")
     void warningIfSendEmptyForm() {
         OrderPage orderPage = open("http://localhost:8080", OrderPage.class);
-        var emptyCardInfo = new DataHelper.CardInfo("","","","","");
+        var emptyCardInfo = new DataHelper.CardInfo("", "", "", "", "");
         orderPage.selectPay();
         orderPage.fillAndSendForm(emptyCardInfo);
         orderPage.checkWarningCardNumber(textFillRequired);

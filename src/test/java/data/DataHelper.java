@@ -23,6 +23,16 @@ public class DataHelper {
         String cvv;
     }
 
+    public static String getStatusCard(String cardNumber) {
+        if (cardNumber == "4444444444444441") {
+            return "APPROVED";
+        } else if (cardNumber == "4444444444444442") {
+            return "DECLINED";
+        } else {
+            return null;
+        }
+    }
+
     public static CardInfo generateValidApprovedCard() {
         // задаем срок действия карты в зависимости от текущей даты, но не больше, чем +5 лет.
         String month = new DecimalFormat("00").format((int) (Math.random() * 12 + 1));
