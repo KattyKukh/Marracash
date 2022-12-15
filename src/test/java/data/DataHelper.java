@@ -1,7 +1,9 @@
 package data;
 
 import com.github.javafaker.Faker;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -14,19 +16,21 @@ public class DataHelper {
     private DataHelper() {
     }
 
-    @Value
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class CardInfo {
-        String cardNumber;
+        String number;
         String month;
         String year;
         String holder;
-        String cvv;
+        String cvc;
     }
 
     public static String getStatusCard(String cardNumber) {
-        if (cardNumber.equals("4444444444444441")) {
+        if (cardNumber.equals("4444 4444 4444 4441")) {
             return "APPROVED";
-        } else if (cardNumber.equals("4444444444444442")) {
+        } else if (cardNumber.equals("4444 4444 4444 4442")) {
             return "DECLINED";
         } else {
             return null;
@@ -39,9 +43,9 @@ public class DataHelper {
         String year = LocalDate.now().plusYears((int) (Math.random() * 4 + 1)).format(DateTimeFormatter.ofPattern("yy"));
         // генерируем имя держателя карты (не длиннее 21 символа (включая пробел))
         String holderName = generateHolderName();
-        // генерируем CVV код от 001 до 999
+        // генерируем CVC код от 001 до 999
         String cvv = new DecimalFormat("000").format(Math.random() * 999 + 1);
-        return new CardInfo("4444444444444441", month, year, holderName, cvv);
+        return new CardInfo("4444 4444 4444 4441", month, year, holderName, cvv);
     }
 
     public static CardInfo generateDeclinedCard() {
@@ -50,9 +54,9 @@ public class DataHelper {
         String year = LocalDate.now().plusYears((int) (Math.random() * 4 + 1)).format(DateTimeFormatter.ofPattern("yy"));
         // генерируем имя держателя карты (не длиннее 21 символа (включая пробел))
         String holderName = generateHolderName();
-        // генерируем CVV код от 001 до 999
+        // генерируем CVC код от 001 до 999
         String cvv = new DecimalFormat("000").format(Math.random() * 999 + 1);
-        return new CardInfo("4444444444444442", month, year, holderName, cvv);
+        return new CardInfo("4444 4444 4444 4442", month, year, holderName, cvv);
     }
 
     public static String generateHolderName() {
@@ -69,7 +73,7 @@ public class DataHelper {
 
     public static String generateWrongCardNumber() {
         // генерируем номер карты с индекса "1111" для того, чтобы легче вычистить такие записи из БД, если они туда попадут
-        String newCardNumber = "1111" + faker.numerify("############");
+        String newCardNumber = "1111" + faker.numerify(" #### #### ####");
         return newCardNumber;
     }
 

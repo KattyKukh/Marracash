@@ -7,13 +7,13 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class SqlHelper {
+public class SQLHelper {
     private static QueryRunner runner = new QueryRunner();
     private static String url = System.getProperty("db.url");
     private static String user = System.getProperty("db.user");
     private static String password = System.getProperty("db.password");
 
-    public SqlHelper() {
+    public SQLHelper() {
     }
 
     @SneakyThrows

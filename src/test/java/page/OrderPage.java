@@ -53,7 +53,7 @@ public class OrderPage {
         checkNoWarningMonth();
         checkNoWarningYear();
         checkNoWarningCardHolder();
-        checkNoWarningCVV();
+        checkNoWarningCVC();
     }
 
     public void selectCredit() {
@@ -64,16 +64,16 @@ public class OrderPage {
         checkNoWarningMonth();
         checkNoWarningYear();
         checkNoWarningCardHolder();
-        checkNoWarningCVV();
+        checkNoWarningCVC();
     }
 
     public void fillAndSendForm(DataHelper.CardInfo cardInfo) {
         clearForm();
-        cardNumber.setValue(cardInfo.getCardNumber());
+        cardNumber.setValue(cardInfo.getNumber());
         month.setValue(cardInfo.getMonth());
         year.setValue(cardInfo.getYear());
         cardHolder.setValue(cardInfo.getHolder());
-        cvv.setValue(cardInfo.getCvv());
+        cvv.setValue(cardInfo.getCvc());
         buttonContinue.click();
     }
 
@@ -149,12 +149,12 @@ public class OrderPage {
         cardHolderWarning.shouldNotBe(visible);
     }
 
-    public void checkWarningCVV(String textWarning) {
+    public void checkWarningCVC(String textWarning) {
         cvvWarning.shouldBe(visible)
                 .shouldHave(text(textWarning));
     }
 
-    public void checkNoWarningCVV() {
+    public void checkNoWarningCVC() {
         cvvWarning.shouldNotBe(visible);
     }
 }
