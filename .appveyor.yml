@@ -17,4 +17,4 @@ install:
 
 build_script:
   - chmod +x gradlew
-  - ./gradlew test --info -Ddb=jdbc:mysql://localhost:3306/app -Dselenide.headless=true #headless режим для Selenide, jdbc для соединения с СУБД MySQL
+  - ./gradlew test --info -Dselenide.headless=true -Ddb=jdbc:mysql://localhost:3306/app #headless режим для Selenide, jdbc для соединения с СУБД MySQL
