@@ -4,6 +4,8 @@ services:
     image: mysql:latest
     ports:
       - '3306:3306'
+    volumes:
+      - ./datamysql:/var/lib/mysql/data/
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=app
@@ -13,12 +15,14 @@ services:
     image: postgres:latest
     ports:
       - '5432:5432'
+    volumes:
+      - ./data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_DB=app
       - POSTGRES_USER=app
       - POSTGRES_PASSWORD=pass
   node-app:
-    build: ./gate-simulator
+    build: ./gate-simulator/
     image: node-app:1.0
     ports:
       - '9999:9999'
