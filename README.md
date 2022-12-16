@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/kyndpsplri8lmn5g/branch/master?svg=true)](https://ci.appveyor.com/project/EKukhotskaya/marracash/branch/master)
+
 ## Инструкция по запуску тестов
 
 ### Список необходимого программного обеспечения
