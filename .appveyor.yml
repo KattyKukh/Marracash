@@ -1,0 +1,20 @@
+image: Ubuntu  # образ для сборки
+
+stack: jdk 11  # версия JDK
+
+branches:
+  only:
+    - master  # ветка git
+
+build: off  # будем использовать свой скрипт сборки
+
+install:
+  # запускаем SUT (& означает, что в фоновом режиме - не блокируем терминал для запуска тестов)
+  - docker-compose up -d &
+  - sleep 10
+  - java -Dspring.datasource.url=jdbc:mysql://localhost:3306/app -jar ./artifacts/aqa-shop.jar &
+  - sleep 10
+
+build_script:
+  - chmod +x gradlew
+  - ./gradlew test --info -Dselenide.headless=true -Ddb=jdbc:mysql://localhost:3306/app #headless режим для Selenide, jdbc для соединения с СУБД MySQL
