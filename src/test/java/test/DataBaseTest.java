@@ -13,9 +13,13 @@ public class DataBaseTest {
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
 
+    @AfterEach
+    void tearDown() {
+        SQLHelper.cleanDatabase();
+    }
+
     @AfterAll
     static void tearDownAll() {
-        SQLHelper.cleanDatabase();
         SelenideLogger.removeListener("allure");
     }
 
@@ -74,4 +78,4 @@ public class DataBaseTest {
         //        проверяем по id операции, что она отразилась и в таблице order_entity в столбце credit_id
         Assertions.assertEquals(rowCreditTable.getBank_id(), rowOrderTable.getCredit_id());
     }
-}
+ }

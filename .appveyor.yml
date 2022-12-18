@@ -13,7 +13,6 @@ install:
   - docker-compose up &
   - sleep 120
   - java -Dspring.datasource.url=jdbc:mysql://localhost:3306/app -jar ./artifacts/aqa-shop.jar &
-  - sleep 120
 
 build_script:
   - chmod +x gradlew

@@ -18,8 +18,7 @@
 5. Запустить тесты командой в терминале: ./gradlew clean test
 6. Подождать пока отработают тесты.
 7. Остановить приложение нажатием клавиш Ctrl+C в терминале
-8. Запустить приложение aqa-shop.jar командой в терминале: java -Dspring.datasource.url=jdbc:postgresql://localhost:
-   5432/app -jar ./artifacts/aqa-shop.jar
+8. Запустить приложение aqa-shop.jar командой в терминале: java -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app -jar ./artifacts/aqa-shop.jar
 9. Подождать пока запустится приложение.
 10. Запустить тесты командой в терминале: ./gradlew clean test -Ddb.url=jdbc:postgresql://localhost:5432/app
 11. Подождать пока отработают тесты.

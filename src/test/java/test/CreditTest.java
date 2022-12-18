@@ -92,7 +92,7 @@ public class CreditTest {
     }
 
     @Test
-    @DisplayName("Should show warning if card number is empty")
+    @DisplayName("Should show correct warning if card number is empty")
     void warningIfCardNumberEmpty() {
         OrderPage orderPage = open(urlApp, OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
@@ -124,7 +124,7 @@ public class CreditTest {
     }
 
     @Test
-    @DisplayName("Should show warning if card has expired (year)")
+    @DisplayName("Should show correct warning if card has expired (year)")
     void warningIfCardHasExpiredYear() {
         OrderPage orderPage = open(urlApp, OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
@@ -144,7 +144,7 @@ public class CreditTest {
     }
 
     @Test
-    @DisplayName("Should show warning if card has expired (month)")
+    @DisplayName("Should show correct warning if card has expired (month)")
     void warningIfCardHasExpiredMonth() {
         OrderPage orderPage = open(urlApp, OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
@@ -169,7 +169,7 @@ public class CreditTest {
     }
 
     @Test
-    @DisplayName("Should show warning if card has wrong month (00)")
+    @DisplayName("Should show correct warning if wrong month (00)")
     void warningIfCardHasWrongMonth00() {
         OrderPage orderPage = open(urlApp, OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
@@ -188,7 +188,26 @@ public class CreditTest {
     }
 
     @Test
-    @DisplayName("Should show warning if card has wrong month (>12)")
+    @DisplayName("Should show correct warning if too short month")
+    void warningIfShortMonth() {
+        OrderPage orderPage = open(urlApp, OrderPage.class);
+        var validCardInfo = DataHelper.generateValidApprovedCard();
+        String changedMonth = validCardInfo.getMonth().substring(1, 2);
+        DataHelper.CardInfo wrongCardInfo = new DataHelper.CardInfo(validCardInfo.getNumber(), changedMonth, validCardInfo.getYear(),
+                validCardInfo.getHolder(), validCardInfo.getCvc());
+        orderPage.selectCredit();
+        orderPage.fillAndSendForm(wrongCardInfo);
+        orderPage.checkWarningMonth(textWrongFormat);
+        orderPage.checkNoNotification();
+        //  в первом из тестов на валидацию поля можно проверять, не всплывает ли предупреждение под другими полями
+        orderPage.checkNoWarningCardNumber();
+        orderPage.checkNoWarningYear();
+        orderPage.checkNoWarningCardHolder();
+        orderPage.checkNoWarningCVC();
+    }
+
+    @Test
+    @DisplayName("Should show correct warning if wrong month (>12)")
     void warningIfCardHasWrongMonth() {
         OrderPage orderPage = open(urlApp, OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
@@ -202,21 +221,7 @@ public class CreditTest {
     }
 
     @Test
-    @DisplayName("Should show warning if card has wrong year (> +5)")
-    void warningIfCardHasWrongYear() {
-        OrderPage orderPage = open(urlApp, OrderPage.class);
-        var validCardInfo = DataHelper.generateValidApprovedCard();
-        String changedYear = LocalDate.now().plusYears(6).format(DateTimeFormatter.ofPattern("yy"));
-        DataHelper.CardInfo wrongCardInfo = new DataHelper.CardInfo(validCardInfo.getNumber(), validCardInfo.getMonth(), changedYear,
-                validCardInfo.getHolder(), validCardInfo.getCvc());
-        orderPage.selectCredit();
-        orderPage.fillAndSendForm(wrongCardInfo);
-        orderPage.checkWarningYear(textWrongDate);
-        orderPage.checkNoNotification();
-    }
-
-    @Test
-    @DisplayName("Should show warning if card has empty month")
+    @DisplayName("Should show correct warning if empty month")
     void warningIfCardHasEmptyMonth() {
         OrderPage orderPage = open(urlApp, OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
@@ -230,7 +235,50 @@ public class CreditTest {
     }
 
     @Test
-    @DisplayName("Should show warning if holder name is Cyrillic")
+    @DisplayName("Should show correct warning if wrong year (> +5)")
+    void warningIfCardHasWrongYear() {
+        OrderPage orderPage = open(urlApp, OrderPage.class);
+        var validCardInfo = DataHelper.generateValidApprovedCard();
+        String changedYear = LocalDate.now().plusYears(6).format(DateTimeFormatter.ofPattern("yy"));
+        DataHelper.CardInfo wrongCardInfo = new DataHelper.CardInfo(validCardInfo.getNumber(), validCardInfo.getMonth(), changedYear,
+                validCardInfo.getHolder(), validCardInfo.getCvc());
+        orderPage.selectCredit();
+        orderPage.fillAndSendForm(wrongCardInfo);
+        orderPage.checkWarningYear(textWrongDate);
+        orderPage.checkNoNotification();
+    }
+
+    @Test
+    @DisplayName("Should show correct warning if too short number of year")
+    void warningIfShortNumberOfYear() {
+        OrderPage orderPage = open(urlApp, OrderPage.class);
+        var validCardInfo = DataHelper.generateValidApprovedCard();
+        String changedYear = validCardInfo.getYear().substring(1, 2);
+        DataHelper.CardInfo wrongCardInfo = new DataHelper.CardInfo(validCardInfo.getNumber(), validCardInfo.getMonth(), changedYear,
+                validCardInfo.getHolder(), validCardInfo.getCvc());
+        orderPage.selectCredit();
+        orderPage.fillAndSendForm(wrongCardInfo);
+        orderPage.checkWarningYear(textWrongDate);
+        orderPage.checkNoNotification();
+    }
+
+    @Test
+    @DisplayName("Should show correct warning if empty year")
+    void warningIfEmptyYear() {
+        OrderPage orderPage = open(urlApp, OrderPage.class);
+        var validCardInfo = DataHelper.generateValidApprovedCard();
+        String changedYear = "";
+        DataHelper.CardInfo wrongCardInfo = new DataHelper.CardInfo(validCardInfo.getNumber(), validCardInfo.getMonth(), changedYear,
+                validCardInfo.getHolder(), validCardInfo.getCvc());
+        orderPage.selectCredit();
+        orderPage.fillAndSendForm(wrongCardInfo);
+        orderPage.checkWarningYear(textWrongFormat);
+        orderPage.checkNoNotification();
+    }
+
+
+    @Test
+    @DisplayName("Should show correct warning if holder name is Cyrillic")
     void warningIfHolderCyrillic() {
         OrderPage orderPage = open(urlApp, OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
@@ -249,7 +297,7 @@ public class CreditTest {
     }
 
     @Test
-    @DisplayName("Should show warning if holder name is very long")
+    @DisplayName("Should show correct warning if holder name is very long")
     void warningIfHolderNameLong() {
         OrderPage orderPage = open(urlApp, OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
@@ -263,7 +311,7 @@ public class CreditTest {
     }
 
     @Test
-    @DisplayName("Should show warning if holder name is empty")
+    @DisplayName("Should show correct warning if holder name is empty")
     void warningIfHolderNameEmpty() {
         OrderPage orderPage = open(urlApp, OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
@@ -277,7 +325,7 @@ public class CreditTest {
     }
 
     @Test
-    @DisplayName("Should show warning if CVC is too short")
+    @DisplayName("Should show correct warning if CVC is too short")
     void warningIfShortCvc() {
         OrderPage orderPage = open(urlApp, OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
@@ -296,7 +344,7 @@ public class CreditTest {
     }
 
     @Test
-    @DisplayName("Should show warning if CVC is empty")
+    @DisplayName("Should show correct warning if CVC is empty")
     void warningIfCvcEmpty() {
         OrderPage orderPage = open(urlApp, OrderPage.class);
         var validCardInfo = DataHelper.generateValidApprovedCard();
@@ -310,17 +358,17 @@ public class CreditTest {
     }
 
     @Test
-    @DisplayName("Should show warnings if form is not completed")
+    @DisplayName("Should show no notification and show correct warnings if all form fields was empty")
     void warningIfSendEmptyForm() {
         OrderPage orderPage = open(urlApp, OrderPage.class);
         var emptyCardInfo = new DataHelper.CardInfo("", "", "", "", "");
         orderPage.selectCredit();
         orderPage.fillAndSendForm(emptyCardInfo);
+        orderPage.checkNoNotification();
         orderPage.checkWarningCardNumber(textFillRequired);
         orderPage.checkWarningMonth(textFillRequired);
         orderPage.checkWarningYear(textFillRequired);
         orderPage.checkWarningCardHolder(textFillRequired);
         orderPage.checkWarningCVC(textFillRequired);
-        orderPage.checkNoNotification();
     }
 }

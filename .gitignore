@@ -1,9 +1,10 @@
-TaskGraduateWork.md
 Thumbs.db*
 .DS_Store
 HELP.md
 .gradle
 build/
+data_postgres/
+data_mysql/
 
 ### STS ###
 .apt_generated
