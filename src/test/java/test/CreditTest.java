@@ -371,4 +371,20 @@ public class CreditTest {
         orderPage.checkWarningCardHolder(textFillRequired);
         orderPage.checkWarningCVC(textFillRequired);
     }
+
+    @Test
+    @DisplayName("Should show no warnings if form fields was empty and then form was filled with valid data")
+    void showNoWarningIfEmptyFormWasFilledValidData() {
+        OrderPage orderPage = open(urlApp, OrderPage.class);
+        var emptyCardInfo = new DataHelper.CardInfo("", "", "", "", "");
+        orderPage.selectCredit();
+        orderPage.fillAndSendForm(emptyCardInfo);
+        var validCardInfo = DataHelper.generateValidApprovedCard();
+        orderPage.fillAndSendForm(validCardInfo);
+        orderPage.checkNoWarningCardNumber();
+        orderPage.checkNoWarningMonth();
+        orderPage.checkNoWarningYear();
+        orderPage.checkNoWarningCardHolder();
+        orderPage.checkNoWarningCVC();
+    }
 }

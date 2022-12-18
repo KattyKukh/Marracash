@@ -68,21 +68,12 @@ public class OrderPage {
     }
 
     public void fillAndSendForm(DataHelper.CardInfo cardInfo) {
-        clearForm();
         cardNumber.setValue(cardInfo.getNumber());
         month.setValue(cardInfo.getMonth());
         year.setValue(cardInfo.getYear());
         cardHolder.setValue(cardInfo.getHolder());
         cvv.setValue(cardInfo.getCvc());
         buttonContinue.click();
-    }
-
-    public void clearForm() {
-        cardNumber.sendKeys(Keys.chord(Keys.CONTROL + "A"), Keys.DELETE);
-        month.sendKeys(Keys.chord(Keys.CONTROL + "A"), Keys.DELETE);
-        year.sendKeys(Keys.chord(Keys.CONTROL + "A"), Keys.DELETE);
-        cardHolder.sendKeys(Keys.chord(Keys.CONTROL + "A"), Keys.DELETE);
-        cvv.sendKeys(Keys.chord(Keys.CONTROL + "A"), Keys.DELETE);
     }
 
     public void cardFieldsVisible() {
