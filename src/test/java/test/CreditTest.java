@@ -258,7 +258,7 @@ public class CreditTest {
                 validCardInfo.getHolder(), validCardInfo.getCvc());
         orderPage.selectCredit();
         orderPage.fillAndSendForm(wrongCardInfo);
-        orderPage.checkWarningYear(textWrongDate);
+        orderPage.checkWarningYear(textWrongFormat);
         orderPage.checkNoNotification();
     }
 
@@ -272,7 +272,7 @@ public class CreditTest {
                 validCardInfo.getHolder(), validCardInfo.getCvc());
         orderPage.selectCredit();
         orderPage.fillAndSendForm(wrongCardInfo);
-        orderPage.checkWarningYear(textWrongFormat);
+        orderPage.checkWarningYear(textFillRequired);
         orderPage.checkNoNotification();
     }
 

@@ -259,7 +259,7 @@ public class PaymentTest {
                 validCardInfo.getHolder(), validCardInfo.getCvc());
         orderPage.selectPay();
         orderPage.fillAndSendForm(wrongCardInfo);
-        orderPage.checkWarningYear(textWrongDate);
+        orderPage.checkWarningYear(textWrongFormat);
         orderPage.checkNoNotification();
     }
 
@@ -273,7 +273,7 @@ public class PaymentTest {
                 validCardInfo.getHolder(), validCardInfo.getCvc());
         orderPage.selectPay();
         orderPage.fillAndSendForm(wrongCardInfo);
-        orderPage.checkWarningYear(textWrongFormat);
+        orderPage.checkWarningYear(textFillRequired);
         orderPage.checkNoNotification();
     }
 
