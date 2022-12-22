@@ -3,7 +3,6 @@ package page;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import data.DataHelper;
-import org.openqa.selenium.Keys;
 
 import java.time.Duration;
 
@@ -11,13 +10,7 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class OrderPage {
-    //    создаю паттерн одной страницы, поскольку поля формы не меняются при выборе оплаты по карте или покупки в кредит,
-    //    меняется только адрес отправки данных на сервер по кнопке "Продолжить"
-    private SelenideElement titlePage = $("h2");
     private ElementsCollection heading = $$("h3.heading");
-    //    кнопки ищем через button, а потом уже span, чтобы при изменении структуры страницы искать именно кнопку с надписью, а не просто надпись
-    private SelenideElement buttonPay = $x("//button//span[text()='Купить']");
-    private SelenideElement buttonCredit = $x("//button//span[text()='Купить в кредит']");
     private SelenideElement cardNumber = $x("//span[text()='Номер карты']//following::input");
     private SelenideElement cardNumberWarning = $x("//span[text()='Номер карты']//following-sibling::span[@class='input__sub']");
     private SelenideElement month = $x("//span[text()='Месяц']//following::input");
@@ -40,31 +33,20 @@ public class OrderPage {
 
 
     public OrderPage() {
-        titlePage.shouldHave(text("Путешествие дня")).shouldBe(visible);
-        buttonPay.shouldBe(visible);
-        buttonCredit.shouldBe(visible);
+        cardFieldsVisible();
+        checkNoWarningCardHolder();
+        checkNoWarningMonth();
+        checkNoWarningYear();
+        checkNoWarningCardHolder();
+        checkNoWarningCVC();
     }
 
-    public void selectPay() {
-        buttonPay.click();
+    public void checkSelectPay() {
         heading.find(text(titlePay)).shouldBe(visible);
-        cardFieldsVisible();
-        checkNoWarningCardHolder();
-        checkNoWarningMonth();
-        checkNoWarningYear();
-        checkNoWarningCardHolder();
-        checkNoWarningCVC();
     }
 
-    public void selectCredit() {
-        buttonCredit.click();
+    public void checkSelectCredit() {
         heading.find(text(titleCredit)).shouldBe(visible);
-        cardFieldsVisible();
-        checkNoWarningCardHolder();
-        checkNoWarningMonth();
-        checkNoWarningYear();
-        checkNoWarningCardHolder();
-        checkNoWarningCVC();
     }
 
     public void fillAndSendForm(DataHelper.CardInfo cardInfo) {

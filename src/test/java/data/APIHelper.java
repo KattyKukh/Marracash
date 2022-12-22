@@ -8,10 +8,12 @@ import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
 
 public class APIHelper {
+    private static String urlApp = System.getProperty("app.url");
+    private static String pathPayment = "/api/v1/pay";
+    private static String pathCredit = "/api/v1/credit";
 
     private static RequestSpecification requestSpec = new RequestSpecBuilder()
-            .setBaseUri("http://localhost")
-            .setPort(8080)
+            .setBaseUri(urlApp)
             .setAccept(ContentType.JSON)
             .setContentType(ContentType.JSON)
             .log(LogDetail.ALL)
@@ -22,7 +24,7 @@ public class APIHelper {
                 .spec(requestSpec)
                 .body(cardInfo)
                 .when()
-                .post("/api/v1/pay")
+                .post(pathPayment)
                 .then()
                 .statusCode(200);
     }
@@ -32,7 +34,7 @@ public class APIHelper {
                 .spec(requestSpec)
                 .body(cardInfo)
                 .when()
-                .post("/api/v1/credit")
+                .post(pathCredit)
                 .then()
                 .statusCode(200);
     }
