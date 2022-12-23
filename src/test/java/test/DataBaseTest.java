@@ -29,7 +29,7 @@ public class DataBaseTest {
         var approvedCardInfo = DataHelper.generateValidApprovedCard();
         APIHelper.newPayOperation(approvedCardInfo);
         //        проверяем по статусу карты, что операция отразилась в таблице payment_entity
-        String statusCard = DataHelper.getStatusCard(approvedCardInfo.getNumber());
+        var statusCard = DataHelper.getStatusCard(approvedCardInfo.getNumber());
         var rowPaymentTable = SQLHelper.getLastTransactionFromPaymentEntity();
         var rowOrderTable = SQLHelper.getLastTransactionFromOrderEntity();
         Assertions.assertEquals(statusCard, rowPaymentTable.getStatus());
@@ -43,7 +43,7 @@ public class DataBaseTest {
         var approvedCardInfo = DataHelper.generateValidApprovedCard();
         APIHelper.newCreditOperation(approvedCardInfo);
         //        проверяем по статусу карты, что операция отразилась в таблице payment_entity
-        String statusCard = DataHelper.getStatusCard(approvedCardInfo.getNumber());
+        var statusCard = DataHelper.getStatusCard(approvedCardInfo.getNumber());
         var rowCreditTable = SQLHelper.getLastTransactionFromCreditRequestEntity();
         var rowOrderTable = SQLHelper.getLastTransactionFromOrderEntity();
         Assertions.assertEquals(statusCard, rowCreditTable.getStatus());
@@ -57,7 +57,7 @@ public class DataBaseTest {
         var declinedCardInfo = DataHelper.generateDeclinedCard();
         APIHelper.newPayOperation(declinedCardInfo);
         //        проверяем по статусу карты, что операция отразилась в таблице payment_entity
-        String statusCard = DataHelper.getStatusCard(declinedCardInfo.getNumber());
+        var statusCard = DataHelper.getStatusCard(declinedCardInfo.getNumber());
         var rowPaymentTable = SQLHelper.getLastTransactionFromPaymentEntity();
         var rowOrderTable = SQLHelper.getLastTransactionFromOrderEntity();
         Assertions.assertEquals(statusCard, rowPaymentTable.getStatus());
@@ -71,7 +71,7 @@ public class DataBaseTest {
         var declinedCardInfo = DataHelper.generateDeclinedCard();
         APIHelper.newCreditOperation(declinedCardInfo);
         //        проверяем по статусу карты, что операция отразилась в таблице payment_entity
-        String statusCard = DataHelper.getStatusCard(declinedCardInfo.getNumber());
+        var statusCard = DataHelper.getStatusCard(declinedCardInfo.getNumber());
         var rowCreditTable = SQLHelper.getLastTransactionFromCreditRequestEntity();
         var rowOrderTable = SQLHelper.getLastTransactionFromOrderEntity();
         Assertions.assertEquals(statusCard, rowCreditTable.getStatus());
